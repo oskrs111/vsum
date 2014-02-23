@@ -25,16 +25,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-    require('./php/vsum/vsum-class.php');     
+    require('vsum-class.php');     
     if(isset($_GET['user']) && isset($_GET['token']))
     {
-        $user = new vsumClass($_GET['user'],null);
+        $user = new vsumClass($_GET['user'],null,null);
         $user->vUserLogin();
         $user->vUserValidate($_GET['token']);
     }
     else
     {
-       $user = new vsumClass(null,null); 
+       $user = new vsumClass(null,null,null); 
        $user->vUserLogin();
     }    
     

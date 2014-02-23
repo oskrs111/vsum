@@ -1,4 +1,4 @@
-<?php include('vsum-page.php'); ?>
+<?php if(file_exists('vsum-page.php')){include('vsum-page.php');}else{echo "File ERROR!"; exit(0);} ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
@@ -11,7 +11,7 @@
   <div id="logo"> <a href="#"><img src="img/logo.png" alt="" /></a> </div>
   <div id="nav">
     <ul>
-      <li><a href="page2.php">Page 1</a></li>
+      <li><a href="page1.php">Page 1</a></li>
       <li>/</li>
       <li><a href="#"><b>Page 2</b></a></li>
       <li>/</li>
@@ -19,7 +19,7 @@
       <li>/</li>
       <li><a href="page4.php">Page 4</a></li>
 	  <li>/</li>
-      <li><a href="/php/vsum/vsum-logout.php">LOGOUT</a></li>	 	  
+      <li><a href="vsum-logout.php">LOGOUT</a></li>	 	  
     </ul>
   </div>
   <div id="main">    

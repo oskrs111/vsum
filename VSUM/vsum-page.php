@@ -26,18 +26,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-    require('./php/vsum/vsum-class.php');   
+    require('vsum-class.php');   
     if(isset($_POST['username']) && isset($_POST['password']))
     {
-        $user = new vsumClass($_POST['username'],$_POST['password']);        
+        $user = new vsumClass($_POST['username'],$_POST['password'],null);        
     }
 	else if(isset($_GET['username']) && isset($_GET['password']))
     {
-        $user = new vsumClass($_GET['username'],$_GET['password']);        
+        $user = new vsumClass($_GET['username'],$_GET['password'],null);        
     }
     else
     {
-       $user = new vsumClass(null,null); 
+       $user = new vsumClass(null,null,null); 
     }    
     
 	$user->vUserLogin();

@@ -68,6 +68,11 @@ catch(PDOException $e)
   return $STH->fetchAll();
 }
 
+function vDataBaseGetError($pdoObject)
+{
+	return $pdoObject->errorInfo();
+}
+
 function vDataBaseClose($pdoObject)
 {
     $pdoObject = null;

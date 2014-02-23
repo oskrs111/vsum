@@ -37,7 +37,10 @@ interface vUserStatus
     const stUnknownUser = 101;   
     const stNullUser = 102;  
 	const stSessionExpired = 103;  
+	const stLoggedOut = 104;  
+	const stSessionNotFound = 105;
     const stEmailSendError = 200;   
+	const stPasswordNotMatch = 201;   
 }
 
 interface vUserGroup
@@ -59,11 +62,12 @@ class vsumClass
     private $m_userGroup;
     private $m_userRole;
     private $m_userPassWord;
+	private $m_userPassWord2;
     private $m_userStatus;
     private $m_vsumConfig;
     private $m_sqlString;
     
-    function vsumClass($UserName,$PassWord) 
+    function vsumClass($UserName,$PassWord,$PassWord2) 
     {
        $this->m_userGroup = vUserGroup::groupUser;
        $this->m_userRole = vUserRole::roleNormalUser;
@@ -72,7 +76,7 @@ class vsumClass
        if(isset($UserName) && isset($PassWord))
        {           
             $this->m_userName = $UserName;
-            $this->m_userPassWord = md5($PassWord); //Never use raw password!  
+            $this->m_userPassWord = md5($PassWord); //Never use raw password!  			
        }
        else if(isset($UserName))
        //This case is used on validation process, username is included on validation string.
@@ -83,7 +87,14 @@ class vsumClass
 	   {
             //TODO: Add control to detect username / password mistake???
             $this->m_userStatus = vUserStatus::stUnknownUser;            
-        }      
+       }      
+	   
+	    if(isset($PassWord2))
+		//Only used on New User Registration!!!
+		{
+			$this->m_userPassWord2 = md5($PassWord2); //Never use raw password!  
+		}
+		else $this->m_userPassWord2 = "";
     }
       
     function vUserLogin()
@@ -143,18 +154,32 @@ class vsumClass
 	    $this->vWriteSqlLog();
 		$this->vWriteClasslLog($this->m_user);
 		$this->vWriteClasslLog($_SESSION);
-		//$this->vWriteClasslLog($_SESSION['vejam']);
-		//$this->vWriteClasslLog($_SESSION['vejam-expires']);
-	   
+		  
        return $this->m_user;
     }
     
+	function vLogOut()
+    {
+		session_start();
+		if(isset($_SESSION['vejam']))
+        {			
+            session_destroy();		
+			return  vUserStatus::stLoggedOut;
+		}	
+		
+		return vUserStatus::stSessionNotFound;
+	}
+	
     function vUserRegister($sendEmailValidation)
     //$sendEmailValidation: 
     // true -> Validation email will be sent, so account will ned to activate..
     // false -> Do it without mail
     {
         $ret = 0;
+		
+		//First very basic check on password syntax!
+		if(strcmp($this->m_userPassWord , $this->m_userPassWord2) != 0) return vUserStatus::stPasswordNotMatch;
+		
         //Ok, here it's supposed we already know that current user does not
         //exists on database, just add it...
         ($sendEmailValidation == true) ? $us = vUserStatus::stValidationPending : $us = vUserStatus::stValidUser;
@@ -198,6 +223,19 @@ class vsumClass
                 $ret = vUserStatus::stValidationPending;
         }   
         
+		if($this->m_vsumConfig->v_WebmasterNotify == true)
+		{
+			$body = "New user has been registered: ".$this->m_userName;			
+			$headers = "From: ".$this->m_vsumConfig->v_ValidationEmailFrom."\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+			
+			mail($this->m_vsumConfig->v_WebmasterEmail, 
+                     $this->m_vsumConfig->v_WebmasterEmailSubject,
+                     $body,
+                     $headers);
+		}		
+		
         $this->m_user = vDataBaseQuerry($this->m_sqlString, $this->m_PDO);
         $this->vWriteSqlLog();
         return $ret;
@@ -205,7 +243,7 @@ class vsumClass
     
     function vUserValidate($validationToken)
     {
-        $this->m_sqlString = "UPDATE vejam_users SET userstatus = ".vUserStatus::stValidUser;
+        $this->m_sqlString = "UPDATE ".$this->m_vsumConfig->v_TableName." SET userstatus = ".vUserStatus::stValidUser;
         $this->m_sqlString .= " WHERE username = '".$this->m_userName."'";
         $this->m_sqlString .= " AND validationtoken = '".$validationToken."';";
         vDataBaseQuerry($this->m_sqlString, $this->m_PDO);
@@ -280,20 +318,25 @@ class vsumClass
         if($this->m_vsumConfig->v_SqlLog == true)
         {
             $fh = "";
+			$mode = 'a';
             $path = $this->m_vsumConfig->v_SqlLogFile;
-            if(filesize($path) > 100000)
-            {
-                $fh = fopen($path, 'w');  
-            }            
-            else 
-            {
-                $fh = fopen($path, 'a');
-            }
+			
+            if(file_exists($path))
+			{
+				if(filesize($path) > 100000) $mode = 'w';			
+			}            
+                      
+			$fh = fopen($path, $mode);
             
+			ob_start();
+			var_dump(vDataBaseGetError($this->m_PDO));
+			$result = ob_get_clean();
+			
 			fwrite($fh,"*********** ".basename($_SERVER['REQUEST_URI'])." - ");
 			fwrite($fh, date("F j, Y, g:i:s:u a")); 
 			fwrite($fh," ***********\r\n");
-            fwrite($fh, $this->m_sqlString."\r\n\r\n");
+            fwrite($fh, $this->m_sqlString."\r\n");
+			fwrite($fh, $result."\r\n\r\n");			
             fclose($fh);
         }
     }
@@ -303,16 +346,16 @@ class vsumClass
         if($this->m_vsumConfig->v_ClassLog == true)
         {
             $fh = "";
+			$mode = 'a';			
             $path = $this->m_vsumConfig->v_ClassLogFile;
-            if(filesize($path) > 100000)
-            {
-                $fh = fopen($path, 'w');  
-            }            
-            else 
-            {
-                $fh = fopen($path, 'a');
-            }
-            
+           
+			if(file_exists($path))
+			{
+				if(filesize($path) > 100000) $mode = 'w';			
+			}            
+                      
+			$fh = fopen($path, $mode);
+			
 			ob_start();
 			var_dump($data);
 			$result = ob_get_clean();

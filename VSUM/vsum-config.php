@@ -28,37 +28,51 @@ SOFTWARE.
 
 class vsumConfig
 {
-    public $v_HostName;
-    public $v_BataBase;
-    public $v_UserName;
-    public $v_PassWord;
-    public $v_TablePrefix;
-    public $v_TableSufix;
-    public $v_DataBaseEngine;
-    public $v_TableName;
-    public $v_redirect_LoginPage;
-    public $v_redirect_RegisterPage;
+        public $v_HostName;
+        public $v_BataBase;
+        public $v_UserName;
+        public $v_PassWord;
+		public $v_WebmasterEmail;
+		public $v_WebmasterEmailSubject;
+		public $v_WebmasterNotify;
+        public $v_TablePrefix;
+        public $v_TableSufix;
+        public $v_SqlLog;
+        public $v_SqlLogFile;
+        public $v_ClassLog;
+        public $v_ClassLogFile;
+        public $v_ValidationEmailSubject;
+        public $v_ValidationEmailTemplate;
+        public $v_ValidationEmailFrom;
+        public $v_DataBaseEngine;
+        public $v_session_expiration;
+        public $v_redirect_SiteRoot;
+        public $v_redirect_LoginPage;
+        public $v_redirect_ActivationPage;
         
     function vsumConfig()
     {        
-        $this->v_HostName = "wwww.server.name.com";
-        $this->v_BataBase = "dbNAME";
-        $this->v_UserName = "dbUSER_NAME";
-        $this->v_PassWord = "dbUSER_PASSWORD";
+        $this->v_HostName = "dataBase_Hostname"; 						//Database HOSTNAME
+        $this->v_BataBase = "dataBase_Name";							//Database NAME
+        $this->v_UserName = "dataBase_UserName";						//Database USERNAME
+        $this->v_PassWord = "dataBase_PassWord";						//Database PASSWORD
+		$this->v_WebmasterEmail = "webmaster@it.is";					//Email to receive new registration notifications.
+		$this->v_WebmasterEmailSubject = "Webmaster email subject"; 	//Registration email subject, to be used on email registration notifications.
+		$this->v_WebmasterNotify = false;								//true | false, to receive registration notifications.	
         $this->v_TablePrefix = "prefix_";
-        $this->v_TableSufix = "sufix";    //So... table name will be 'prefix_sufix'...
-        $this->v_SqlLog = false;  
-        $this->v_SqlLogFile = "app-sql.log";  
-        $this->v_ClassLog = false;
-        $this->v_ClassLogFile = "app-class.log";  
-        $this->v_ValidationEmailSubject = ""; 
-        $this->v_ValidationEmailTemplate = ""; 
-        $this->v_ValidationEmailFrom = "";
-        $this->v_DataBaseEngine = "mysql"; //"mssql"; "sybase"; "sqlite";   
-        $this->v_session_expiration = 60;   //In minutes; 0x00 for disable.
-        $this->v_redirect_SiteRoot = "www.server.name.com/";
-        $this->v_redirect_LoginPage = "index.php";
-        $this->v_redirect_ActivationPage = "";
+        $this->v_TableSufix = "sufix";									//So... table name will be 'prefix_sufix'...
+        $this->v_SqlLog = false;  										//true | false, to write sql log file.	
+        $this->v_SqlLogFile = "app-sql.log";  							//SQL log file name. 
+        $this->v_ClassLog = false;										//true | false, to write sql log file.
+        $this->v_ClassLogFile = "app-class.log";  						//Class log file name.
+        $this->v_ValidationEmailSubject = "Validation email subject"; 	//Validation email subject, to be used on email validation.
+        $this->v_ValidationEmailTemplate = "./email/template.html"; 	//Template file to use on email validation.
+        $this->v_ValidationEmailFrom = "webmaster@it.is";				//Email used as 'sender' on validation messages.
+        $this->v_DataBaseEngine = "mysql"; 								//"mssql"; "sybase"; "sqlite";   
+        $this->v_session_expiration = 5;   								//In minutes; 0x00 for disable.
+        $this->v_redirect_SiteRoot = "http://siterroot";				//Siterrot used on redirections.
+        $this->v_redirect_LoginPage = "index.php";						//Main or 'fist' page of website, used to contain login form.
+        $this->v_redirect_ActivationPage = "activate.php";				//Page used on activation process.
 		//Do not edit below this line...
         $this->v_TableName = $this->v_TablePrefix.$this->v_TableSufix;
     }
