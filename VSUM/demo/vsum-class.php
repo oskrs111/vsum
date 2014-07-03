@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-require('config/vsum-config.php');
+require('vsum-config.php');
 require('vsum-common.php');
 
 interface vUserStatus

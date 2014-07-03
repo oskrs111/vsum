@@ -1,0 +1,36 @@
+                                                ____   
+              .--.--.                         ,'  , `. 
+       ,---. /  /    '.          ,--,      ,-+-,.' _ | 
+      /__./||  :  /`. /        ,'_ /|   ,-+-. ;   , || 
+ ,---.;  ; |;  |  |--`    .--. |  | :  ,--.'|'   |  ;| 
+/___/ \  | ||  :  ;_    ,'_ /| :  . | |   |  ,', |  ': 
+\   ;  \ ' | \  \    `. |  ' | |  . . |   | /  | |  || 
+ \   \  \: |  `----.   \|  | ' |  | | '   | :  | :  |, 
+  ;   \  ' .  __ \  \  |:  | | :  ' ; ;   . |  ; |--'  
+   \   \   ' /  /`--'  /|  ; ' |  | ' |   : |  | ,     
+    \   `  ;'--'.     / :  | : ;  ; | |   : '  |/      
+     :   \ |  `--'---'  '  :  `--'   \;   | |`-'       
+      '---"             :  ,      .-./|   ;/           
+                         `--`----'    '---'            
+_____________________________________________________________________________________
+VEJAM SIMPLE USER MANAGEMENT
+_____________________________________________________________________________________
+
+This folder contains a full funtional demo for VSUM framework (or it's supposed to...).
+You only need to follow these steps:
+
+1-Create the VSUM table as described in sql.txt file.
+	Change table name according to your preferences...
+
+2-Set the appropiate fields on config/vsum-config.php, at last you should set up:
+
+		$this->v_HostName = "www.hostname.com";
+        $this->v_BataBase = "dbNmae";
+        $this->v_UserName = "dbUserName";
+        $this->v_PassWord = "password";
+		$this->v_WebmasterEmail = "webmaster@web.com";
+		$this->v_TablePrefix = "prefix";	//Change table name according to your preferences...
+        $this->v_TableSufix = "-sufix";    	//Change table name according to your preferences...
+		
+But check the other configurations in order to meet your preferences.
+May the force be with you...

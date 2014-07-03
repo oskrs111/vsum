@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
 <head>
 <title>VSUM - Demo</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="css/global.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- VSUM CODE BLOCK -->
 	<script>
         <?php
@@ -18,7 +18,7 @@
         ?>
         function vSetFormError(setReset)
         {
-           //VSUM-TODO: Add form highligth control if need...
+           //VSUM-TODO: Add form highlight control if need...
         }
         
 	    $( document ).ready(function() 
@@ -28,25 +28,40 @@
             {
                 switch(vsumError)
                 {
-                    case 1: alert("ATENCIÓN: Esta cuenta no ha sido confirmada. Revise su cuenta de correo electrónico.(Puede tardar hasta una hora)");
+                    case 1: alert("ERROR: This account has not been activated yet. Please check your email account for registration message.");
                             break;
                     case 2: //VSUM-Everything allrigth!
-                            break;
-                            
-                    case 102:
-                        alert("ATENCIÓN: Nombre de usuario o contraseña incorrectos?");
-                        vSetFormError(true);
-                        break;  
-                        
+                            break;                                                    
                     case 200:
-                        alert("ATENCIÓN: Error al enviar el email de activación!");
+                        alert("ERROR: While sending activation email!");
                         vSetFormError(true);
                         break;  
-                        
+						
+                    case 201:
+                        alert("ERROR: Registration password mismatch!");                        
+						vSetFormError(true);
+                        break;  						
+
+					case 103: 	
+						alert("WARING: Session expired!");                        
+						vSetFormError(true);
+						break;
+
+					case 104: 	
+						alert("WARING: User logged out!");                        
+						vSetFormError(true);
+						break;
+
+					case 105: 	
+						alert("ERROR: Session error!");       
+						vSetFormError(true);
+						break;						
+						
                     case 100:                    
                     case 101:                        
+					case 102:
                     default: 
-                        alert("ATENCIÓN: Nombre de usuario o contraseña incorrectos?");
+                        alert("ERROR: Wrong username or password?");
                         vSetFormError(true);
                         break;                        
                 }
@@ -71,17 +86,17 @@
   </div>
   <div id="main">    
     <div class="left">
-      <h3>Login to Page 1</h3>
-      <p>Here you can use<br/>'<b>myname@it.is</b>' as Email,<br/>and '<b>mypassword</b>' as Password below or...<br/>
-	  Create a <a href="https://code.google.com/p/vsum/">new account</a> for this demo... (will be deleted later).
+      <h3>Login form demo</h3>
+      <p>Here you can use<br/>'<b>myname@it.is</b>' as Email,<br/>and '<b>mypass</b>' as Password below or...<br/>
+	  Create a <a href="/vsum/demo/register.php">new account</a> for this demo...
 	  </p>
 	  <!-- VSUM CODE BLOCK -->
       <form action="page1.php" enctype="application/x-www-form-urlencoded" method="post">
         <fieldset>
           <label for="name">Email</label>
-          <input type="text" id="name" size="35" class="field" />
+          <input type="text" name="username" id="username" size="35" class="field" />
           <label for="email">Password</label>
-          <input type="text" id="email" size="35" class="field" />
+          <input type="password" name="password" id="password" size="35" class="field" />
           <input type="submit" value="Login" class="button" />
         </fieldset>
       </form>
@@ -89,11 +104,10 @@
     </div>    
 	<div  class="right">
     <h1><b>VSUM - Vejam Simple User Management</b>, is an Open Source user management Framework written in php, developed as part of <a href="http://www.vejam.info/"> VEJAM Project </a> by Oscar Sanz.<br/><br/>
-	VSUM has been designed to be <b>easy and simple</b> to use, configure and adapt to 'any' web.<br/><br/>
-	This page is to demonstrate the VSUM functionality. On the left you can log in to vsum'ed pages. Successful login will take you to 'Page 1' of this demo.<br/>
-	Once logged you can navigate between Page 1 to Page 4 without need to authenticate again, using the top links.
-	<br/><br/>
-	You can get full source under MIT license at <a href="https://code.google.com/p/vsum/"> code.google.com/vsum </a>
+	VSUM has been designed to be <b>easy and simple</b> to use, configure and adapt to 'any' web. This page is to demonstrate the VSUM functionality.
+	<br/><br/>On the left there is a form to log in to vsum'ed pages. Successful login will take you to 'Page 1' of this demo.
+	<br/><br/>Once logged you can navigate between Page 1 to Page 4 without need to authenticate again, using the top links.
+	<br/><br/><br/>You can get full source under MIT license at <a href="https://code.google.com/p/vsum/"> code.google.com/vsum </a>
 	</h1>
   </div>
 </div>

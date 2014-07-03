@@ -60,7 +60,7 @@ class vsumConfig
 		$this->v_WebmasterEmailSubject = "App Demo registration!"; 
 		$this->v_WebmasterNotify = true;
         $this->v_TablePrefix = "prefix";
-        $this->v_TableSufix = "sufix";    //So... table name will be 'prefix_sufix'...
+        $this->v_TableSufix = "-sufix";    //So... table name will be 'prefix-sufix'...
         $this->v_SqlLog = true;  
         $this->v_SqlLogFile = "_________________app-sql.log";  
         $this->v_ClassLog = true;
