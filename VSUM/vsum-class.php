@@ -39,6 +39,7 @@ interface vUserStatus
 	const stSessionExpired = 103;  
 	const stLoggedOut = 104;  
 	const stSessionNotFound = 105;
+        const stUserDeleted = 106;
     const stEmailSendError = 200;   
 	const stPasswordNotMatch = 201;   
 }
@@ -249,11 +250,17 @@ class vsumClass
         vDataBaseQuerry($this->m_sqlString, $this->m_PDO);
         $this->m_userStatus = vUserStatus::stValidUser; //If something wrong has happened will see at login page...
         $this->vWriteSqlLog();   
+        return $this->m_userStatus;
     }
     
     function vUserDelete()
     {
-        
+        $this->m_sqlString = "DELETE FROM ".$this->m_vsumConfig->v_TableName;
+        $this->m_sqlString .= " WHERE username = '".$this->m_userName."'";         
+        vDataBaseQuerry($this->m_sqlString, $this->m_PDO);
+        $this->m_userStatus = vUserStatus::stUserDeleted; 
+        $this->vWriteSqlLog();                
+        return $this->m_userStatus;
     }
     
     function vGetUserStatus()

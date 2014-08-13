@@ -18,8 +18,10 @@
       <li><a href="page3.php">Page 3</a></li>
       <li>/</li>
       <li><a href="page4.php">Page 4</a></li>
-	  <li>/</li>
+      <li>/</li>
       <li><a href="vsum-logout.php">LOGOUT</a></li>	 
+      <li>/</li>
+      <li><a href="unregister.php">UN-REGISTER</a></li>	       
     </ul>
   </div>
   <div id="main">    

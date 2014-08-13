@@ -28,13 +28,13 @@ body {
 
 #logo {
   float: left;
-  width: 400px;
+  width: 250px;
   height: 100px;
 }
 
 #nav {
   float: right;
-  width: 520px;
+  width: 650px;
   height: 100px;
 }
 

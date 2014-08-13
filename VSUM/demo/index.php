@@ -56,6 +56,11 @@
 						alert("ERROR: Session error!");       
 						vSetFormError(true);
 						break;						
+
+					case 106: 	
+						alert("INFO: User deleted!");       
+						vSetFormError(true);
+						break;						
 						
                     case 100:                    
                     case 101:                        

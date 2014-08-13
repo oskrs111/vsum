@@ -26,68 +26,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-function vDataBaseConnect($engine,$host,$dbname,$user,$pass)
-{
-    $DBH = "";
-try {      
-    switch ($engine) 
+    require('vsum-class.php');   
+    if(isset($_POST['username']) && isset($_POST['password']))
     {
-        case "mysql": 
-        case "mssql":
-        case "sybase":
-            $DBH = new PDO($engine.":host=".$host.";dbname=".$dbname, $user, $pass);  
-            break;
-        
-        case "sqlite":
-            $DBH = new PDO("sqlite:".$dbname);  
-            break;
-
-        default:
-            vDataBaseError("No avaliable driver for '".$engine."' database engine... ");
-            return 0;
+        $user = new vsumClass($_POST['username'],$_POST['password'],null);        
     }
-}  
-catch(PDOException $e)
-{  
-    vDataBaseError($e->getMessage());
-}      
-    return $DBH;
-}
-
-function vDataBaseQuerry($sqlString, $pdoObject)
-{
-try
-{
-    $STH = $pdoObject->prepare($sqlString);
-    $STH->execute();   
-}
-catch(PDOException $e)
-{  
-    vDataBaseError($e->getMessage());
-}    
-  return $STH->fetchAll();
-}
-
-function vDataBaseClose($pdoObject)
-{
-    $pdoObject = null;
-}
-
-function vDataBaseError($errorString)
-{
-    echo "vsum Error: ".$errorString;
-    die();
-}
-
-function vDataBaseGetLastError($pdoObject)
-{
-	if($stmt->errorCode() == 0) 
-	{
-		return 0;
-    }	
-	else
-	{
-		return $pdoObject->errorInfo();		
-	}	
-}
+	else if(isset($_GET['username']) && isset($_GET['password']))
+    {
+        $user = new vsumClass($_GET['username'],$_GET['password'],null);        
+    }
+    else
+    {
+       $user = new vsumClass(null,null,null); 
+    }    
+    
+    $user->vUserLogin();
+    $status = $user->vGetUserStatus();
+    switch($status)
+    {
+        case vUserStatus::stValidUser: 
+                 $user->vLogOut();
+                 $status = $user->vUserDelete();
+        default: $user->vGoLoginPage($status);                             
+    }   
 ?>

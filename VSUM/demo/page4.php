@@ -19,7 +19,9 @@
       <li>/</li>
       <li><a href="#"><b>Page 4</b></a></li>
 	  <li>/</li>
-      <li><a href="vsum-logout.php">LOGOUT</a></li>	 	  
+      <li><a href="vsum-logout.php">LOGOUT</a></li>	 
+      <li>/</li>
+      <li><a href="unregister.php">UN-REGISTER</a></li>	             
     </ul>
   </div>
   <div id="main">    
